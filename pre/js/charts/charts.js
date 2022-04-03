@@ -48,6 +48,7 @@ export function initChart(iframe) {
         let gruposEnfermedadesMujeres = ['causas_externas_mujeres','circulatorio_mujeres','respiratorio_mujeres','parasitarias_mujeres','tumores_mujeres','otros_mujeres'];
         let gruposEnfermedadesHombres = ['causas_externas_hombres','circulatorio_hombres','respiratorio_hombres','parasitarias_hombres','tumores_hombres','otros_hombres'];
 
+        console.log(data);
         //Eje X
         let x = d3.scaleBand()
             .domain(d3.map(data, function(d){ return d.Edad; }).keys())
@@ -93,13 +94,50 @@ export function initChart(iframe) {
     
         let dataStackedMen = d3.stack()
             .keys(gruposEnfermedadesHombres)
-            (data);
-
-        console.log(dataStacked);
-        
+            (data);        
         
         function init() {
+            chart1.append("g")
+                .attr('class','chart-g-1')
+                .selectAll("g")
+                .data(dataStackedMen)
+                .enter()
+                .append("g")
+                .attr("fill", function(d) { return colorHombres(d.key); })
+                .selectAll("rect")
+                .data(function(d) { return d; })
+                .enter()
+                .append("rect")
+                    .attr('class','prueba-1')
+                    .attr("x", function(d) { return x(d.data.Edad); })
+                    .attr("y", function(d) { return y(0); })
+                    .attr("height", function(d) { return 0; })
+                    .attr("width",x.bandwidth())
+                    .transition()
+                    .duration(2500)
+                    .attr("y", function(d) { return y(d[1]); })
+                    .attr("height", function(d) { return y(d[0]) - y(d[1]); });
 
+            chart2.append("g")
+                .attr('class','chart-g-2')
+                .selectAll("g")
+                .data(dataStackedWomen)
+                .enter()
+                .append("g")
+                .attr("fill", function(d) { return colorMujeres(d.key); })
+                .selectAll("rect")
+                .data(function(d) { return d; })
+                .enter()
+                .append("rect")
+                    .attr('class','prueba-2')
+                    .attr("x", function(d) { return x(d.data.Edad); })
+                    .attr("y", function(d) { return y(0); })
+                    .attr("height", function(d) { return 0; })
+                    .attr("width",x.bandwidth())
+                    .transition()
+                    .duration(2500)
+                    .attr("y", function(d) { return y(d[1]); })
+                    .attr("height", function(d) { return y(d[0]) - y(d[1]); });
         }
 
         function animateChart() {
