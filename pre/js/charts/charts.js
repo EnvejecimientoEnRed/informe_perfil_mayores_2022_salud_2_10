@@ -21,7 +21,7 @@ COLOR_OTHER_2 = '#731854';
 
 export function initChart(iframe) {
     //Desarrollo del gráfico
-    d3.csv('https://raw.githubusercontent.com/CarlosMunozDiazCSIC/informe_perfil_mayores_2022_salud_2_10/main/data/distribucion_defunciones_reducida_v3.csv', function(error,data) {
+    d3.csv('https://raw.githubusercontent.com/CarlosMunozDiazCSIC/informe_perfil_mayores_2022_salud_2_10/main/data/distribucion_enfermedades_espana_relativo.csv', function(error,data) {
         if (error) throw error;
 
         data = data.filter(function(item) { if(item.Edad != 'Todas las edades'){ return item; } });
@@ -45,7 +45,8 @@ export function initChart(iframe) {
             .append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        let gruposEnfermedades = ['Causas externas de mortalidad','Enfermedades del sistema circulatorio','Enfermedades del sistema respiratorio','Enfermedades infecciosas y parasitarias *','Tumores','Otras causas'];
+        let gruposEnfermedadesMujeres = ['causas_externas_mujeres','circulatorio_mujeres','respiratorio_mujeres','parasitarias_mujeres','tumores_mujeres','otros_mujeres'];
+        let gruposEnfermedadesHombres = ['causas_externas_hombres','circulatorio_hombres','respiratorio_hombres','parasitarias_hombres','tumores_hombres','otros_hombres'];
 
         //Eje X
         let x = d3.scaleBand()
@@ -78,12 +79,20 @@ export function initChart(iframe) {
             .call(d3.axisLeft(y));
 
         //Colores
-        let color = d3.scaleOrdinal()
-            .domain(gruposEnfermedades)
+        let colorMujeres = d3.scaleOrdinal()
+            .domain(gruposEnfermedadesMujeres)
             .range([COLOR_PRIMARY_1, COLOR_COMP_2, COLOR_COMP_1, COLOR_GREY_1, COLOR_GREY_2, COLOR_OTHER_1]);
 
-        let dataStacked = d3.stack()
-            .keys(gruposEnfermedades)
+        let colorHombres = d3.scaleOrdinal()
+            .domain(gruposEnfermedadesHombres)
+            .range([COLOR_PRIMARY_1, COLOR_COMP_2, COLOR_COMP_1, COLOR_GREY_1, COLOR_GREY_2, COLOR_OTHER_1]);
+
+        let dataStackedWomen = d3.stack()
+            .keys(gruposEnfermedadesMujeres)
+            (data);
+    
+        let dataStackedMen = d3.stack()
+            .keys(gruposEnfermedadesHombres)
             (data);
 
         console.log(dataStacked);
