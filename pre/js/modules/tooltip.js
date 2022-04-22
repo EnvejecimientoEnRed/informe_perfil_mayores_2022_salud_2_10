@@ -6,24 +6,18 @@ function getInTooltip(tooltip) {
 }
 
 function getOutTooltip(tooltip) {
-    tooltip.transition().style('display','none').style('opacity', 0);
+    tooltip.style('display','none').style('opacity', 0);
 }
 
 function positionTooltip(event, tooltip) {
     let x = event.pageX;
     let y = event.pageY;
 
-    //Tamaño
-    let ancho = parseInt(tooltip.style('width'));
-    
-    let distanciaAncho = isNaN(ancho) ? 100 : ancho;
-
     //Posición
     let left = window.innerWidth / 2 > x ? 'left' : 'right';
-    let mobile = window.innerWidth < 525 ? -20 : 0;
-    let horizontalPos = left == 'left' ? 20 : - distanciaAncho + mobile;
+    let horizontalPos = left == 'left' ? 15 : -150;
 
-    tooltip.style('top', y + 17 + 'px');
+    tooltip.style('top', y - 50 + 'px');
     tooltip.style('left', (x + horizontalPos) + 'px');
 }
 
