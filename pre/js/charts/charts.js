@@ -27,7 +27,7 @@ export function initChart(iframe) {
         data = data.filter(function(item) { if(item.Edad != 'Todas las edades'){ return item; } });
 
         //Declaramos fuera las variables genéricas
-        let margin = {top: 20, right: 20, bottom: 20, left: 35},
+        let margin = {top: 20, right: 20, bottom: 40, left: 35},
             width = document.getElementById('bars--first').clientWidth - margin.left - margin.right,
             height = document.getElementById('bars--first').clientHeight - margin.top - margin.bottom;
 
@@ -48,15 +48,23 @@ export function initChart(iframe) {
         let gruposEnfermedadesMujeres = ['causas_externas_mujeres','circulatorio_mujeres','respiratorio_mujeres','parasitarias_mujeres','tumores_mujeres','otros_mujeres'];
         let gruposEnfermedadesHombres = ['causas_externas_hombres','circulatorio_hombres','respiratorio_hombres','parasitarias_hombres','tumores_hombres','otros_hombres'];
 
-        console.log(data);
+        
         //Eje X
         let x = d3.scaleBand()
             .domain(d3.map(data, function(d){ return d.Edad; }).keys())
             .range([0, width])
             .padding([0.2]);
 
-        let xAxis = d3.axisBottom(x)
-            .tickValues(x.domain().filter(function(d,i){ return !(i%2)}));
+        let xAxis = function(g) {
+            g.call(d3.axisBottom(x).tickValues(x.domain().filter(function(d,i){ return !(i%2); })));
+            g.call(function(svg) {
+                svg.selectAll("text")  
+                    .style("text-anchor", "end")
+                    .attr("dx", "-.8em")
+                    .attr("dy", ".15em")
+                    .attr("transform", "rotate(-45)");
+            });
+        }
         
         chart1.append("g")
             .attr("transform", "translate(0," + height + ")")
