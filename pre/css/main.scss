@@ -137,7 +137,7 @@ button {
 
         //Visualización
         &__viz {
-            height: 802px;
+            height: auto;
             margin-top: 8px;
 
             .chart__bars:last-child {
@@ -257,7 +257,7 @@ button {
 
     width: auto;
     padding: 0px 6px;
-    font-size: 0.85rem;
+    font-size: 0.85em;
     border-radius: 3px;
 
     &__option {
@@ -273,6 +273,7 @@ button {
     }
 
     &__animate {
+        width: 141px;
         height: 32px;
         border: 1.2px solid #E37A42;
         
@@ -322,6 +323,30 @@ button {
         & + .text__header {
             margin-top: 24px;
         }
+    }
+
+    &__viz {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 0.9em;
+        line-height: 10px;
+        
+        text-align: center;
+    }
+
+    &__yaxis {
+        font-size: 0.8em;
+        line-height: 1.25em;
+        font-weight: 400;
+        color: #262626;
+    }
+
+    &__xaxis {
+        font-size: 0.8em;
+        line-height: 1.25em;
+        font-weight: 400;
+        color: #262626;
+        text-align: center;
     }
 }
 
