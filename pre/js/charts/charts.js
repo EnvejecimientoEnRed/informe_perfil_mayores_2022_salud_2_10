@@ -19,9 +19,9 @@ let tooltip = d3.select('#tooltip');
 //Diccionario
 let dictionary = {
     causasexternas: 'Causas externas',
-    circulatorio: 'Enf. sist. circulatorio',
-    respiratorio: 'Enf. sist. respiratorio',
-    parasitarias: 'Enf. infecciosas',
+    circulatorio: 'Enfermedades sist. circulatorio',
+    respiratorio: 'Enfermedades sist. respiratorio',
+    parasitarias: 'Enfermedades infecciosas',
     tumores: 'Tumores',
     otros: 'Otras causas'
 }
@@ -34,7 +34,7 @@ export function initChart(iframe) {
         data = data.filter(function(item) { if(item.Edad != 'Todas las edades'){ return item; } });
 
         //Declaramos fuera las variables genéricas
-        let margin = {top: 10, right: 20, bottom: 40, left: 35},
+        let margin = {top: 10, right: 10, bottom: 40, left: 32.5},
             width = document.getElementById('bars--first').clientWidth - margin.left - margin.right,
             height = document.getElementById('bars--first').clientHeight - margin.top - margin.bottom;
 
@@ -140,21 +140,63 @@ export function initChart(iframe) {
                 .data(function(d) { return d; })
                 .enter()
                 .append("rect")
-                    .attr('class','rect-1')
-                    .attr("x", function(d) { return x(d.data.Edad); })
-                    .attr("y", function(d) { return y(0); })
-                    .attr("height", function(d) { return 0; })
-                    .attr("width",x.bandwidth())
-                    .on('mouseover', function(d,i,e) {
+                .attr('class', 'rect-1')
+                .attr("x", function(d) { return x(d.data.Edad); })
+                .attr("y", function(d) { return y(0); })
+                .attr("height", function(d) { return 0; })
+                .attr("width",x.bandwidth())
+                .on('mouseover', function(d,i,e) {
+                    //Opacidad de las barras
+                    let current = this.parentNode.classList[1];
+                    let other_1 = chart1.selectAll('.rect-1');
+                    let other_2 = chart2.selectAll('.rect-2');
+                    let _this_1 = chart1.selectAll(`.${current.split('_')[0]}_hombres`); //Elemento padre
+                    let _thisChilds_1 = _this_1.selectAll('.rect-1');
+                    let _this_2 = chart2.selectAll(`.${current.split('_')[0]}_mujeres`); //Elemento padre
+                    let _thisChilds_2 = _this_2.selectAll('.rect-2');
+                    
+                    other_1.each(function() {
+                        this.style.opacity = '0.2';
+                    });
+                    other_2.each(function() {
+                        this.style.opacity = '0.2';
+                    });
+                    _thisChilds_1.each(function() {
+                        this.style.opacity = '1';
+                    });
+                    _thisChilds_2.each(function() {
+                        this.style.opacity = '1';
+                    });
 
-                    })
-                    .on('mouseout', function(d,i,e) {
+                    //Texto                    
+                    let html = '<p class="chart__tooltip--title">Tipo: ' + dictionary[current.split('_')[0]] + '</p>' + 
+                        '<p class="chart__tooltip--text">El <b>' + numberWithCommas3(parseFloat(d.data[current]).toFixed(1)) + '%</b> de los hombres de este grupo de edad (' + d.data.Edad + ') fallecieron por este tipo de causa</p>';
+            
+                    tooltip.html(html);
 
-                    })
-                    .transition()
-                    .duration(2000)
-                    .attr("y", function(d) { return y(d[1]); })
-                    .attr("height", function(d) { return y(d[0]) - y(d[1]); });
+                    //Tooltip
+                    positionTooltip(window.event, tooltip);
+                    getInTooltip(tooltip);
+
+                })
+                .on('mouseout', function(d,i,e) {
+                    //Quitamos los estilos de la línea
+                    let bars_1 = chart1.selectAll('.rect-1');
+                    let bars_2 = chart2.selectAll('.rect-2');
+                    bars_1.each(function() {
+                        this.style.opacity = '1';
+                    });
+                    bars_2.each(function() {
+                        this.style.opacity = '1';
+                    });
+                
+                    //Quitamos el tooltip
+                    getOutTooltip(tooltip); 
+                })
+                .transition()
+                .duration(2000)
+                .attr("y", function(d) { return y(d[1]); })
+                .attr("height", function(d) { return y(d[0]) - y(d[1]); });
 
             chart2.append("g")
                 .attr('class','chart-g-2')
@@ -170,21 +212,62 @@ export function initChart(iframe) {
                 .data(function(d) { return d; })
                 .enter()
                 .append("rect")
-                    .attr('class','rect-2')
-                    .attr("x", function(d) { return x(d.data.Edad); })
-                    .attr("y", function(d) { return y(0); })
-                    .attr("height", function(d) { return 0; })
-                    .attr("width",x.bandwidth())
-                    .on('mouseover', function(d,i,e) {
+                .attr('class','rect-2')
+                .attr("x", function(d) { return x(d.data.Edad); })
+                .attr("y", function(d) { return y(0); })
+                .attr("height", function(d) { return 0; })
+                .attr("width",x.bandwidth())
+                .on('mouseover', function(d,i,e) {
+                    //Opacidad de las barras
+                    let current = this.parentNode.classList[1];
+                    let other_1 = chart1.selectAll('.rect-1');
+                    let other_2 = chart2.selectAll('.rect-2');
+                    let _this_1 = chart1.selectAll(`.${current.split('_')[0]}_hombres`); //Elemento padre
+                    let _thisChilds_1 = _this_1.selectAll('.rect-1');
+                    let _this_2 = chart2.selectAll(`.${current.split('_')[0]}_mujeres`); //Elemento padre
+                    let _thisChilds_2 = _this_2.selectAll('.rect-2');
+                    
+                    other_1.each(function() {
+                        this.style.opacity = '0.2';
+                    });
+                    other_2.each(function() {
+                        this.style.opacity = '0.2';
+                    });
+                    _thisChilds_1.each(function() {
+                        this.style.opacity = '1';
+                    });
+                    _thisChilds_2.each(function() {
+                        this.style.opacity = '1';
+                    });
 
-                    })
-                    .on('mouseout', function(d,i,e) {
-                        
-                    })
-                    .transition()
-                    .duration(2000)
-                    .attr("y", function(d) { return y(d[1]); })
-                    .attr("height", function(d) { return y(d[0]) - y(d[1]); });
+                    //Texto                    
+                    let html = '<p class="chart__tooltip--title">Tipo: ' + dictionary[current.split('_')[0]] + '</p>' + 
+                        '<p class="chart__tooltip--text">El <b>' + numberWithCommas3(parseFloat(d.data[current]).toFixed(1)) + '%</b> de las mujeres de este grupo de edad (' + d.data.Edad + ') fallecieron por este tipo de causa</p>';
+            
+                    tooltip.html(html);
+
+                    //Tooltip
+                    positionTooltip(window.event, tooltip);
+                    getInTooltip(tooltip);
+                })
+                .on('mouseout', function(d,i,e) {
+                    //Quitamos los estilos de la línea
+                    let bars_1 = chart1.selectAll('.rect-1');
+                    let bars_2 = chart2.selectAll('.rect-2');
+                    bars_1.each(function() {
+                        this.style.opacity = '1';
+                    });
+                    bars_2.each(function() {
+                        this.style.opacity = '1';
+                    });
+                
+                    //Quitamos el tooltip
+                    getOutTooltip(tooltip); 
+                })
+                .transition()
+                .duration(2000)
+                .attr("y", function(d) { return y(d[1]); })
+                .attr("height", function(d) { return y(d[0]) - y(d[1]); });
         }
 
         function animateChart() {
