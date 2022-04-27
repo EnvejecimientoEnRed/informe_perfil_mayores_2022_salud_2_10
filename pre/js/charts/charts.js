@@ -26,7 +26,7 @@ let dictionary = {
     otros: 'Otras causas'
 }
 
-export function initChart(iframe) {
+export function initChart() {
     //Desarrollo del gráfico
     d3.csv('https://raw.githubusercontent.com/CarlosMunozDiazCSIC/informe_perfil_mayores_2022_salud_2_10/main/data/distribucion_enfermedades_espana_relativo.csv', function(error,data) {
         if (error) throw error;
@@ -302,6 +302,10 @@ export function initChart(iframe) {
         //Animación del gráfico
         document.getElementById('replay').addEventListener('click', function() {
             animateChart();
+
+            setTimeout(() => {
+                setChartCanvas();
+            }, 4000);
         });
 
         /////
@@ -317,7 +321,9 @@ export function initChart(iframe) {
         setRRSSLinks('distribucion_porc_muertes_sexo');
 
         //Captura de pantalla de la visualización
-        setChartCanvas();
+        setTimeout(() => {
+            setChartCanvas();
+        }, 4000);
 
         let pngDownload = document.getElementById('pngImage');
 
@@ -326,6 +332,6 @@ export function initChart(iframe) {
         });
 
         //Altura del frame
-        setChartHeight(iframe);
+        setChartHeight();
     });    
 }
