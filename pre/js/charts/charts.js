@@ -11,7 +11,7 @@ import { setFixedIframeUrl } from './chart_helpers';
 const COLOR_PRIMARY_1 = '#F8B05C',
 COLOR_COMP_1 = '#528FAD', 
 COLOR_COMP_2 = '#AADCE0',
-COLOR_GREY_1 = '#D6D6D6',
+COLOR_GREY_1 = '#A3A3A3',
 COLOR_ANAG_PRIM_1 = '#BA9D5F',
 COLOR_ANAG_COMP_1 = '#1C5A5E';
 let tooltip = d3.select('#tooltip');
