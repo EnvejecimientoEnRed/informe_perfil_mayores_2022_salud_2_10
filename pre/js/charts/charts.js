@@ -34,7 +34,7 @@ export function initChart() {
         data = data.filter(function(item) { if(item.Edad != 'Todas las edades'){ return item; } });
 
         //Declaramos fuera las variables genéricas
-        let margin = {top: 10, right: 10, bottom: 40, left: 32.5},
+        let margin = {top: 12.5, right: 10, bottom: 40, left: 32.5},
             width = document.getElementById('bars--first').clientWidth - margin.left - margin.right,
             height = document.getElementById('bars--first').clientHeight - margin.top - margin.bottom;
 
