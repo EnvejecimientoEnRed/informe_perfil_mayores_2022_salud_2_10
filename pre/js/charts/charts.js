@@ -66,9 +66,9 @@ export function initChart() {
             g.call(function(svg) {
                 svg.selectAll("text")  
                     .style("text-anchor", "end")
-                    .attr("dx", "-.8em")
-                    .attr("dy", ".15em")
-                    .attr("transform", "rotate(-45)");
+                    .attr("dx", "-.1em")
+                    .attr("dy", ".25em")
+                    .attr("transform", "rotate(-30)");
             });
             
             g.call(function(g){g.selectAll('.tick line').remove()});
@@ -170,7 +170,7 @@ export function initChart() {
 
                     //Texto                    
                     let html = '<p class="chart__tooltip--title">Tipo: ' + dictionary[current.split('_')[0]] + '</p>' + 
-                        '<p class="chart__tooltip--text">El <b>' + numberWithCommas3(parseFloat(d.data[current]).toFixed(1)) + '%</b> de los hombres de este grupo de edad (' + d.data.Edad + ') fallecieron por este tipo de causa</p>';
+                        '<p class="chart__tooltip--text">El <b>' + numberWithCommas3(parseFloat(d.data[current]).toFixed(1)) + '%</b> de los hombres de este grupo de edad (<b>' + d.data.Edad + '</b>) fallecieron por este tipo de causa</p>';
             
                     tooltip.html(html);
 
@@ -242,7 +242,7 @@ export function initChart() {
 
                     //Texto                    
                     let html = '<p class="chart__tooltip--title">Tipo: ' + dictionary[current.split('_')[0]] + '</p>' + 
-                        '<p class="chart__tooltip--text">El <b>' + numberWithCommas3(parseFloat(d.data[current]).toFixed(1)) + '%</b> de las mujeres de este grupo de edad (' + d.data.Edad + ') fallecieron por este tipo de causa</p>';
+                        '<p class="chart__tooltip--text">El <b>' + numberWithCommas3(parseFloat(d.data[current]).toFixed(1)) + '%</b> de las mujeres de este grupo de edad (<b>' + d.data.Edad + '</b>) fallecieron por este tipo de causa</p>';
             
                     tooltip.html(html);
 
